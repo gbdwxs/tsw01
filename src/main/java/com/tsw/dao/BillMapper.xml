@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tsw.dao.BillMapper">
+
+    <insert id="addBill" parameterType="Map">
+        insert into tsw.T0002
+        (USER_NUM,TIME,AMT,REMARK,ITEM_TYPE)
+        values
+        (#{userNum},#{time},#{amt},#{remark},#{itemType})
+    </insert>
+
+    <delete id="deleteBillById" parameterType="Map">
+        delete from tsw.T0002
+        where USER_NUM = #{userNum}
+        and SEQ_NO = #{seqId}
+    </delete>
+
+    <update id="updateBills" parameterType="Map">
+        update tsw.T0002
+        set AMT = #{amt},
+            REMARK = #{remark}
+        where USER_NUM = #{userNum}
+        and SEQ_NO = #{seqId}
+    </update>
+
+    <select id="queryBillById" resultType="Bills" parameterType="Map">
+        select
+            SEQ_NO as "seqNo",
+            USER_NUM as "userNum",
+            TIME as "time",
+            AMT as "amt",
+            REMARK as "remark",
+            ITEM_TYPE as "itemType"
+        from tsw.T0002
+        where SEQ_NO = #{seqId}
+        and USER_NUM = #{userNum}
+    </select>
+
+    <select id="queryAllBillByUserNum" resultType="Bills" parameterType="Map">
+        SELECT
+            a.SEQ_NO as "seqId",
+            a.USER_NUM as "userNum",
+            a.TIME as "time",
+            a.AMT as "amt",
+            a.REMARK as "remark",
+            b.ITEM_NAME as "itemType"
+        from tsw.T0002 a,tsw.T0004 b
+        where a.USER_NUM = #{userNum}
+        and a.ITEM_TYPE = b.ITEM
+        and b.ITEM_TYPE = 'A01'
+        <if test="startTime != null and startTime !=''">
+            and a.TIME >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime !=''">
+            and #{endTime} >= a.TIME
+        </if>
+        order by a.TIME desc,a.SEQ_NO desc
+        limit #{pageStart},#{pageEnd}
+    </select>
+    <select id="querySumAmt" resultType="String" parameterType="Map">
+        SELECT
+            sum(AMT)
+        from tsw.T0002
+        where USER_NUM = #{userNum}
+        <if test="startTime != null and startTime !=''">
+            and TIME >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime !=''">
+            and #{endTime} >= TIME
+        </if>
+    </select>
+    <select id="countAll" resultType="int" parameterType="Map">
+        SELECT
+            count(*)
+        from tsw.T0002
+        where USER_NUM = #{userNum}
+        <if test="startTime != null and startTime !=''">
+            and TIME >= #{startTime}
+        </if>
+        <if test="endTime != null and endTime !=''">
+            and #{endTime} >= TIME
+        </if>
+    </select>
+    <select id="queryItemTypes" resultType="Map" parameterType="Map">
+        select
+            ITEM as "code",
+            ITEM_NAME as "name"
+        from tsw.T0004
+        where ITEM_TYPE = 'A01'
+    </select>
+</mapper>
