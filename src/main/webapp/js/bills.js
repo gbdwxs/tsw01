@@ -24,6 +24,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         contentType: "application/json;charset=utf-8",
+        async:false,
         data: {},
         success: function (result) {
             list = result.itemTypeList;
@@ -32,8 +33,11 @@ $(function () {
             console.log("查询失败！");
         }
     });
-
-
+    var options;
+    for (var i = 0; i < list.length; i++) {
+        options += "<option value=" + list[i].code + ">" + list[i].name + "</option>";
+    }
+    $("#itemTypeList1").append(options);
 });
 
 function add() {
@@ -169,6 +173,7 @@ function query() {
     var endTime = document.getElementById("endTime").value;
     var page = document.getElementById("page").value;
     var pageSize = $('#pageSizeList').find('option:selected').text();
+    var itemType = $('#itemTypeList1').find('option:selected').val();
     var pageSizeCopy = parseInt($("#pageSizeCopy").val());
     if (pageSize != pageSizeCopy) {
         page = 1;
@@ -179,7 +184,8 @@ function query() {
         startTime: startTime,
         endTime: endTime,
         page: page,
-        pageSize: pageSize
+        pageSize: pageSize,
+        itemType:itemType
     }
     $.ajax({
         url: "query.do",

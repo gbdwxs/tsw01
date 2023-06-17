@@ -33,6 +33,11 @@
             <input type="date" id="endTime"/>
             时间
             <input type="date" id="time"/>
+            细分类：
+            <lable id="itemType1" list="itemTypeList1" for="itemTypeList1"></lable>
+            <select id="itemTypeList1">
+                <option value=''>请选择</option>
+            </select>
         </div>
         <div align="right">
             <input id="pageSizeCopy" type="hidden"/>

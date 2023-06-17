@@ -57,6 +57,9 @@
         <if test="endTime != null and endTime !=''">
             and #{endTime} >= a.TIME
         </if>
+        <if test="itemType != null and itemType !=''">
+            and a.ITEM_TYPE = #{itemType}
+        </if>
         order by a.TIME desc,a.SEQ_NO desc
         limit #{pageStart},#{pageEnd}
     </select>
@@ -71,6 +74,9 @@
         <if test="endTime != null and endTime !=''">
             and #{endTime} >= TIME
         </if>
+        <if test="itemType != null and itemType !=''">
+            and ITEM_TYPE = #{itemType}
+        </if>
     </select>
     <select id="countAll" resultType="int" parameterType="Map">
         SELECT
@@ -82,6 +88,9 @@
         </if>
         <if test="endTime != null and endTime !=''">
             and #{endTime} >= TIME
+        </if>
+        <if test="itemType != null and itemType !=''">
+            and ITEM_TYPE = #{itemType}
         </if>
     </select>
     <select id="queryItemTypes" resultType="Map" parameterType="Map">
