@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tsw.dao.BillMapper">
+
+    <insert id="addBill" parameterType="Map">
+        insert into tsw.T0002
+        (USER_NUM,TIME,AMT,REMARK)
+        values
+        (#{userNum},concat(replace(current_date,'-',''),replace(CURRENT_TIME,':','')), #{amt},#{remark})
+    </insert>
+
+    <delete id="deleteBillById" parameterType="Map">
+        delete from tsw.T0002
+        where USER_NUM = #{userNum}
+        and SEQ_NO = #{seqId}
+    </delete>
+
+    <update id="updateBills" parameterType="Map">
+        update tsw.T0002
+        set AMT = #{amt},
+        REMARK = #{remark}
+        where USER_NUM = #{userNum}
+        and SEQ_NO = #{seqId}
+    </update>
+
+    <select id="queryBillById" resultType="Bills" parameterType="Map">
+        select
+        SEQ_NO as "id",
+        USER_NUM as "userNum",
+        TIME as "time",
+        AMT as "amt",
+        REMARK as "remark",
+        ITEM_TYPE as "remark"
+        from tsw.T0002
+        where SEQ_NO = #{seqId}
+        and USER_NUM = #{userNum}
+    </select>
+
+    <select id="queryAllBillByUserNum" resultType="Bills" parameterType="Map">
+        SELECT
+        SEQ_NO as "seqId",
+        USER_NUM as "userNum",
+        TIME as "time",
+        AMT as "amt",
+        REMARK as "remark",
+        ITEM_TYPE as "itemType"
+        from tsw.T0002
+        where USER_NUM = #{userNum}
+        limit #{pageStart},#{pageEnd}
+    </select>
+
+</mapper>
