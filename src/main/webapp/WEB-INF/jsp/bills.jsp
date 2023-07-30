@@ -67,7 +67,6 @@
             <input id="query" onclick="query()" type="button" value="查询" class="btn btn-primary"/>
             <input id="add" onclick="add()" type="button" value="新增" class="btn btn-primary"/>
             <input id="save" onclick="save()" type="button" value="保存" class="btn btn-primary"/>
-            <input id="delete" onclick="d()" type="button" value="删除" class="btn btn-primary"/>
         </div>
     </div>
     <div class="row clearfix">
